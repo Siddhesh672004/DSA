@@ -28,3 +28,4 @@ class Solution
         // Return true if all brackets are balanced.
         return true;
     }
+}
