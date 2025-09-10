@@ -1,60 +1,73 @@
-// C++ Program to demonstrate how to implement the quick
-// sort algorithm
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
-int partition(vector<int> &vec, int low, int high) {
+int partitionLogic(int arr[], int s, int e){
+  //Step 1: Choose pivot element
+  int pivotIndex = s;
+  int pivotElement = arr[s];
 
-    // Selecting last element as the pivot
-    int pivot = vec[high];
+  //Step 2: Find right position for pivot element & place it there
+  int count = 0;
+  for(int i=s+1; i<=e; i++){
+    if(arr[i] <= pivotElement){
+      count++;
+    }
+  }
 
-    // Index of elemment just before the last element
-    // It is used for swapping
-    int i = (low - 1);
+  //When we comr out of loop the rightIndex is ready
+  int rightIndex = s+count;
+  swap(arr[rightIndex], arr[pivotIndex]);
+  pivotIndex = rightIndex;
 
-    for (int j = low; j <= high - 1; j++) {
-
-        // If current element is smaller than or
-        // equal to pivot
-        if (vec[j] <= pivot) {
-            i++;
-            swap(vec[i], vec[j]);
-        }
+  //Step 3: left side small and right side larger elements than pivotElement
+  int i = s;
+  int j = e;
+  while(i < pivotIndex && j > pivotIndex){
+    while(arr[i] <= pivotElement){
+      i++;
     }
 
-    // Put pivot to its position
-    swap(vec[i + 1], vec[high]);
+    while(arr[j] > pivotElement){
+      j--;
+    }
 
-    // Return the point of partition
-    return (i + 1);
+    // 2 cases
+    // A: All elements are at the right place
+    // B: Need to swap the elements
+    if(i < pivotIndex && j > pivotIndex){
+      swap(arr[i], arr[j]);
+    } 
+  }
+  return pivotIndex;
 }
 
-void quickSort(vector<int> &vec, int low, int high) {
+void quickSort(int arr[], int s, int e){
+  //Base Case
+  if(s >= e){
+    return;
+  }
 
-    // Base case: This part will be executed till the starting
-    // index low is lesser than the ending index high
-    if (low < high) {
+  //partition logic
+  int p = partitionLogic(arr, s, e);
 
-        // pi is Partitioning Index, arr[p] is now at
-        // right place
-        int pi = partition(vec, low, high);
-
-        // Separately sort elements before and after the
-        // Partition Index pi
-        quickSort(vec, low, pi - 1);
-        quickSort(vec, pi + 1, high);
-    }
+  //pivot element -> left
+  quickSort(arr, s, p-1);
+  
+  //pivot element -> right
+  quickSort(arr, p+1, e);
 }
 
 int main() {
-    vector<int> vec = {10, 7, 8, 9, 1, 5};
-    int n = vec.size();
-	
-  	// Calling quicksort for the vector vec
-    quickSort(vec, 0, n - 1);
+  int arr[] = {8,4,5,7,9,6,3,1,2,6,6,6,6,6};
+  int n = 14;
 
-    for (auto i : vec) {
-        cout << i << " ";
-    }
-    return 0;
+  int s = 0;
+  int e = n-1;
+  quickSort(arr, s, e);
+
+  for(int i=0; i<n; i++){
+    cout<<arr[i]<<" ";
+  }
+
+  return 0;
 }
