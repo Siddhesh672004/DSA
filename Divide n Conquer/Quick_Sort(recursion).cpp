@@ -14,7 +14,7 @@ int partitionLogic(int arr[], int s, int e){
     }
   }
 
-  //When we comr out of loop the rightIndex is ready
+  //When we come out of loop the rightIndex is ready
   int rightIndex = s+count;
   swap(arr[rightIndex], arr[pivotIndex]);
   pivotIndex = rightIndex;
