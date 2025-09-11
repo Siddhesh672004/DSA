@@ -1,5 +1,6 @@
 //Time complexity: O(4^(N*N)), since each cell can branch into 4 directions.
 //Space Complexity: O(N^2) for visited matrix + recursion stack
+//Recursion + Backtracking
 
 class Solution {
   public:
